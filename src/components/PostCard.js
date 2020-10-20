@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+
 
 // {
 //     "id": 4,
@@ -10,17 +11,35 @@ import { View, Text, Image, StyleSheet, TouchableHighlight, TouchableOpacity } f
 // }
 
 
-const PostCard = ({ post }) => {
+const PostCard = (props) => {
+
+    function likeIcon() {
+
+    }
+
+
     return (
 
         <View>
-            <Text>{post.userName}</Text>
+
+            <Text>{props.data.userName}</Text>
+
             <Image
-                source={{ uri: post.img }}
+                style={styles.img}
+                source={{ uri: props.data.img }}
             />
 
-            <TouchableOpacity>
-                <Text>{post.description}</Text>
+            <Text>{props.data.description}</Text>
+
+            <TouchableOpacity
+                style = {{width:Dimensions.get('window').width / 10}}
+                onPress={() => props.onLike()}
+            >
+                <Image
+                    style={[styles.icon, { tintColor: props.data.isLiked ? 'red' : -1 }]}
+                    source={require('../images/like.png')}
+
+                />
             </TouchableOpacity>
 
         </View>
@@ -28,3 +47,20 @@ const PostCard = ({ post }) => {
 };
 
 export default PostCard;
+
+const styles = StyleSheet.create({
+    img: {
+        height: Dimensions.get('window').height / 4,
+        resizeMode: 'contain'
+    },
+    icon:{
+        width: Dimensions.get('window').width * 0.2,
+        height: Dimensions.get('window').height * 0.05,
+        // borderColor:'black',
+        // borderWidth: 2,
+        resizeMode: 'contain',
+    }
+});
+
+
+
