@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
-
 
 // {
 //     "id": 4,
@@ -10,37 +9,36 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from 'rea
 //     "isLiked": false
 // }
 
+const PostCard = ({ post }) => {
 
-const PostCard = (props) => {
-
-    function likeIcon() {
-
-    }
-
+    const [like, setLike] = useState(post.isLiked);
 
     return (
 
-        <View>
-
-            <Text>{props.data.userName}</Text>
+        <View style = {styles.container}>
 
             <Image
                 style={styles.img}
-                source={{ uri: props.data.img }}
+                source={{uri:post.img }}
             />
 
-            <Text>{props.data.description}</Text>
+            <View style={styles.iconContainer}>
 
-            <TouchableOpacity
-                style = {{width:Dimensions.get('window').width / 10}}
-                onPress={() => props.onLike()}
-            >
-                <Image
-                    style={[styles.icon, { tintColor: props.data.isLiked ? 'red' : -1 }]}
-                    source={require('../images/like.png')}
+                <Text style = {styles.name}>{post.userName}</Text>
 
-                />
-            </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => { like ? setLike(false) : setLike(true) }}
+                >
+                    <Image
+                        source={require('../images/like.png')}
+                        style={styles.icon}
+                        tintColor={like ? 'red' : '#cfd8dc'}
+
+                    />
+                </TouchableOpacity>
+            </View>
+
+            <Text style = {styles.desc}>{post.description}</Text>
 
         </View>
     )
@@ -49,16 +47,38 @@ const PostCard = (props) => {
 export default PostCard;
 
 const styles = StyleSheet.create({
-    img: {
-        height: Dimensions.get('window').height / 4,
-        resizeMode: 'contain'
+    container:{
+        backgroundColor:'white',
+        margin:10,
+        borderRadius:5,
+        paddingHorizontal:5,
+        paddingVertical:5
     },
-    icon:{
-        width: Dimensions.get('window').width * 0.2,
-        height: Dimensions.get('window').height * 0.05,
-        // borderColor:'black',
-        // borderWidth: 2,
-        resizeMode: 'contain',
+    img: {
+        width: Dimensions.get('window').width * 0.92,
+        height:Dimensions.get('window').height / 3.2,
+        resizeMode: 'cover'
+    },
+    iconContainer:{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-around',
+        margin:15
+    },
+    name:{
+        fontWeight:'bold',
+        fontSize: 20,
+        textTransform:'uppercase'
+    },
+    icon: {
+        width: 30,
+        height: 30,
+    },
+    desc:{
+        textAlign:'justify',
+        fontFamily: 'Iowan Old Style',
+        fontSize:18,
+        padding:3
     }
 });
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList } from 'react-native';
+import React from 'react';
+import { SafeAreaView, Text, FlatList, StyleSheet } from 'react-native';
 
 
 import PostCard from './components/PostCard';
@@ -44,41 +44,52 @@ const post_data = [
 
 const App = () => {
 
-    const [postList, setPostList] = useState([]);
-
-    function changeIconColor(postId) {
-        const newArray = [...postList];
-        const postIndex = newArray.findIndex(item => item.id == postId);
-
-        newArray[postIndex].isLiked = !newArray[postIndex].isLiked;
-
-        setPostList(newArray);
-    }
 
     const renderPostData = ({ item }) => {
+
         return (
             <PostCard
-                data={item}
-                onLike={() => changeIconColor(item.id)}
+                post={item}
             />
-            
+
         )
     }
 
-
-    useEffect(() => {
-        setPostList(post_data)
-    }, [])
-
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#263238' }}>
+            <Text style={styles.headerText}>Art of Science</Text>
             <FlatList
-                keyExtractor={(_, index) => index.toString()}
-                data={postList}
+                keyExtractor={(item, index) => index.toString()}
+                data={post_data}
                 renderItem={renderPostData}
             />
         </SafeAreaView>
     )
+
+
+
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+    headerText: {
+        borderWidth:1,
+        borderColor:'white',
+        color: 'white',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        margin: 10,
+        fontSize: 38,
+        fontWeight: 'bold',
+        fontFamily: 'Roboto',
+        textShadowOffset: { width: 3, height: -2 },
+        textShadowRadius: 10,
+        textShadowColor: '#fafafa',
+
+    }
+})
+
+
+
+
